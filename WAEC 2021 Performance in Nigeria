@@ -1,0 +1,73 @@
+--Total number of Private School Students that sat for WAEC
+SELECT  Year,SUM(Total_male_sat_exam) as Male, SUM(Total_female_sat_exam) as Female, SUM(Total_sat_exam) as Total
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.WAEC_Private`
+GROUP BY Year
+
+--Total number of Public School Students that sat for WAEC
+SELECT  Year,SUM(Total_male_sat_exam) as Male, SUM(Total_female_sat_exam) as Female, SUM(Total_sat_exam) as Total
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.WAEC_Public`
+GROUP BY Year 
+
+--Total number of Student that sat for WAEC
+SELECT  Year,SUM(Total_male_sat_exam) as Male, SUM(Total_female_sat_exam) as Female, SUM(Total_sat_exam) as Total
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+GROUP BY Year
+
+--Total number of People that sat for WAEC in 2019 according to state
+SELECT Year, State, Total_male_sat_exam as Male, Total_female_sat_exam as Female, Total_sat_exam as Total
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2019
+ORDER BY State
+
+--Total number of People that sat for WAEC in 2020 according to state
+SELECT Year, State, Total_male_sat_exam as Male, Total_female_sat_exam as Female, Total_sat_exam as Total
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2020
+ORDER BY State
+
+--Total number of People that sat for WAEC in 2021 according to state
+SELECT Year, State, Total_male_sat_exam as Male, Total_female_sat_exam as Female, Total_sat_exam as Total
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2021
+ORDER BY State
+
+--Percentage of students from each state in 2019
+SELECT Geopolitical_zones, SUM(Total_sat_exam)
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2019
+GROUP BY Geopolitical_zones
+
+--Students Performance in WAEC 2021
+--Number of Students that sat for the Exam for each Geopolitical zone
+SELECT Geopolitical_zones, SUM(Total_sat_exam) as Total_Students_Sat
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2021
+GROUP BY Geopolitical_zones
+ORDER BY Total_Students_Sat DESC
+
+--Number of students that passed both Maths and English by State
+SELECT State, Total_maths_english
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2021
+ORDER BY Total_maths_english DESC
+
+--Percentage of Stundents that Passed both Math and English by State
+SELECT State, Total_sat_exam, Total_maths_english, (Total_maths_english/Total_sat_exam)*100 as Percentage_Passed
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2021
+ORDER BY Percentage_Passed DESC
+
+--Number of students that passed both Maths and English by Geopolitical Zone
+SELECT Geopolitical_zones, SUM(Total_maths_english)
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2021
+GROUP BY Geopolitical_zones
+ORDER BY SUM(Total_maths_english) DESC
+
+
+--Percentage of Stundents that Passed both Math and English by Geopolitical Zone
+SELECT Geopolitical_zones, (SUM(Total_maths_english)/SUM(Total_sat_exam)) * 100 as Percentage_Passed
+FROM `my-first-sandbox-project-1996.WAEC_2019_2020_2021.Total_Private_Public`
+WHERE Year = 2021
+group by Geopolitical_zones
+ORDER BY Percentage_Passed DESC
